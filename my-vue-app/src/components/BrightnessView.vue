@@ -1,22 +1,14 @@
 <template>
-  <div class="quadrant-window">
-    <div class="window-titlebar bg-green-500">
-      <span class="window-title">明るさ</span>
-    </div>
-    <div class="window-content bg-white flex items-center justify-center">
-      <h2 v-if="!imageUrl" class="text-lg text-gray-500">画像をドラッグ＆ドロップ</h2>
-      <div v-else class="image-container">
-        <canvas ref="canvas" class="quadrant-image"></canvas>
-        <canvas 
-          ref="histogramCanvas" 
-          class="histogram-canvas"
-          @mousedown="startSelection"
-          @mousemove="updateSelection"
-          @mouseup="endSelection"
-          @mouseleave="endSelection"
-        ></canvas>
-      </div>
-    </div>
+  <div class="fullsize-container">
+    <canvas ref="canvas" class="fullsize-canvas"></canvas>
+    <canvas 
+      ref="histogramCanvas" 
+      class="histogram-canvas"
+      @mousedown="startSelection"
+      @mousemove="updateSelection"
+      @mouseup="endSelection"
+      @mouseleave="endSelection"
+    ></canvas>
   </div>
 </template>
 
@@ -393,52 +385,22 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.quadrant-window {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-}
-
-.window-titlebar {
-  height: 24px;
-  display: flex;
-  align-items: center;
-  padding: 0 0.5rem;
-}
-
-.window-title {
-  color: white;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.window-content {
-  flex-grow: 1;
-  padding: 1rem;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.image-container {
-  position: relative;
+.fullsize-container {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  background-color: transparent;
+  position: relative;
 }
 
-.quadrant-image {
+.fullsize-canvas {
   max-width: 100%;
   max-height: 100%;
+  width: 100%;
+  height: 100%;
   display: block;
   object-fit: contain;
 }
@@ -446,8 +408,10 @@ onUnmounted(() => {
 .histogram-canvas {
   position: absolute;
   bottom: 0;
+  left: 0;
   right: 0;
-  pointer-events: auto; /* マウスイベントを受け取れるように変更 */
-  cursor: crosshair; /* カーソルを十字に変更 */
+  height: 60px; /* ヒストグラムの高さを小さくして邪魔にならないように */
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 </style>
