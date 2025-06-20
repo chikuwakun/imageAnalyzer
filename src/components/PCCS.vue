@@ -39,27 +39,6 @@ const imageData = ref<ImageDataType>({
   lastScale: 0
 });
 
-// トーンの日本語名を取得
-const getToneName = (tone: string): string => {
-  const toneNames: Record<string, string> = {
-    v: '鮮やか',
-    b: '明るく鮮やか',
-    s: '強い',
-    dp: '深い',
-    lt: '明るい',
-    sf: '柔らかい',
-    d: 'くすんだ',
-    dk: '暗い',
-    p: '淡い',
-    ltg: '明るい灰色',
-    g: '灰色',
-    dkg: '暗い灰色',
-    w: '白',
-    Bk: '黒'
-  };
-  return toneNames[tone] || tone;
-};
-
 // トーンの種類と位置情報 (元の位置と新しい位置の間で1:4の比率に調整)
 const toneInfo = {
   v: { x: 614, y: 350, radius: 48 },  // vivid

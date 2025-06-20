@@ -39,6 +39,20 @@ const onDrop = (event: DragEvent) => {
 const clearImage = () => {
   imageUrl.value = null;
 };
+
+// ファイル選択ハンドラ
+const handleFileSelect = (e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      if (event.target?.result) {
+        imageUrl.value = event.target.result as string;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+};
 </script>
 
 <template>
@@ -61,16 +75,7 @@ const clearImage = () => {
               type="file" 
               accept="image/*" 
               class="file-input" 
-              @change="(e) => {
-                const file = (e.target as HTMLInputElement).files?.[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (e) => {
-                    imageUrl = e.target?.result as string;
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }"
+              @change="handleFileSelect"
             />
           </label>
           
