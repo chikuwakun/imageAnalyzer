@@ -43,12 +43,16 @@ const startSelection = (event: MouseEvent) => {
   
   selection.active = true;
   
-  // キャンバス上の座標を取得
+  // キャンバス上の座標を取得（表示サイズ基準）
   const rect = histogramCanvas.value.getBoundingClientRect();
-  const x = event.clientX - rect.left;
+  const displayX = event.clientX - rect.left;
   
-  selection.startX = x;
-  selection.currentX = x;
+  // 表示サイズから論理ピクセル座標に変換
+  const scaleX = histogramCanvas.value.width / rect.width;
+  const logicalX = displayX * scaleX;
+  
+  selection.startX = logicalX;
+  selection.currentX = logicalX;
   
   // 輝度値に変換
   const width = histogramCanvas.value.width;
@@ -69,11 +73,15 @@ const startSelection = (event: MouseEvent) => {
 const updateSelection = (event: MouseEvent) => {
   if (!selection.active || !histogramCanvas.value) return;
   
-  // キャンバス上の座標を取得
+  // キャンバス上の座標を取得（表示サイズ基準）
   const rect = histogramCanvas.value.getBoundingClientRect();
-  const x = event.clientX - rect.left;
+  const displayX = event.clientX - rect.left;
   
-  selection.currentX = x;
+  // 表示サイズから論理ピクセル座標に変換
+  const scaleX = histogramCanvas.value.width / rect.width;
+  const logicalX = displayX * scaleX;
+  
+  selection.currentX = logicalX;
   
   // 輝度値に変換
   const width = histogramCanvas.value.width;
